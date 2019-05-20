@@ -12,6 +12,7 @@ prefixes:
   bv: "http://bio2rdf.org/bio2rdf_vocabulary:"
   homogv: "http://bio2rdf.org/homologene_vocabulary:"
   ncbiv: "http://bio2rdf.org/ncbigene_vocabulary:"
+  genagev: "http://bio2rdf.org/genage_vocabulary:"
 
 mappings:
   TMncbigene-gene_info:
@@ -59,3 +60,57 @@ mappings:
       - [homogv:gene-symbol, $(genesymbol)]
       - [homogv:x-gi, "gi:$(gi)"]
       - [homogv:x-refseq, "refseq:$(refseq)"]
+      
+  TMgeneage-model:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_models.csv~csv]
+    s: http://bio2rdf.org/genage:$(GeneAge ID)
+    po:
+      - [rdf:type, genagev:Resource]
+      - [rdf:type, geneagev:Aging-Related-Gene]
+      - [rdfs:label, "Aging related gene $(GeneAge ID) [genage-model:$(GeneAge ID)]"]
+      - [dcterms:title, Aging related gene $(GeneAge ID)]
+      - [dcterms:identifier, "[genage-model:$(GeneAge ID)]"]
+      - [genagev:gene-symbol, $(symbol)]
+      - p: genagev:x-ncbigene
+        o:
+          mapping: TMncbigene-gene_info
+          condition:
+            function: equal
+            parameters:
+              - [str1, $(entrez gene id)]
+              - [str2, $(GeneID)]
+      - [genagev:maximum-percent-observed-average-lifespan-change, $(avg lifespan change (max obsv))]
+      - [genagev:lifespan-effect, $(lifespan effect)]
+      - [genagev:longevity-influence, $(longevity influence)]
+      
+  TMgeneage-human:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_human.csv~csv]
+    s: http://bio2rdf.org/hagr:$(GeneAge ID)
+    po:
+      - [rdf:type, genagev:Resource]
+      - [rdf:type, geneagev:Human-Aging-Related-Gene]
+      - [rdfs:label, "Human aging related gene $(GeneAge ID) [genage-human:$(GeneAge ID)]"]
+      - [dcterms:title, Human aging related gene $(GeneAge ID)]
+      - [dcterms:identifier, "[genage-human:$(GeneAge ID)]"]
+      - [genagev:alias, $(aliases)]
+      - p: genagev:x-ncbigene
+        o:
+          mapping: TMncbigene-gene_info
+          condition:
+            function: equal
+            parameters:
+              - [str1, $(entrez gene id)]
+              - [str2, $(GeneID)]
+      - [genagev:inclusion-criteria, $(why)]
+      - [genagev:cytogenetic-band, $(band)]
+      - [genagev:gene-start-position, $(location start)]
+      - [genagev:gene-end-position, $(location end)]
+      - [genagev:strand-orientation, $(orientation)]
+      - [genagev:x-uniprot, $(uniprot)]
+      - [genagev:promoter-accession, $(acc promoter)]
+      - [genagev:cds-accession, $(acc cds)]
+      - [genagev:orf-accession, $(acc orf)]
+      - [genagev:article, "pubmed:$(references)"]
+

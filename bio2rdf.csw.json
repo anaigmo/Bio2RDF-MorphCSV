@@ -74,5 +74,98 @@
         "null": "-"
       }]
     }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_models.csv~csv",
+    "dialect": {
+      "delimiter": ",",
+      "header": true
+    },
+    "tableSchema":{
+      "columns": [{
+        "titles": "symbol",
+        "null": ""
+      },{
+        "titles": "name",
+        "null": ""
+      },{
+        "titles": "organism",
+        "null": ""
+      },{
+        "titles": "entrez gene id",
+        "null": ""
+      },{
+        "titles": "avg lifespan change (max obsv)",
+        "null": "",
+        "datatype": {
+          "base": "float"
+        }
+      },{
+        "titles": "lifespan effect",
+        "null": ""
+      },{
+        "titles": "longevity influence",
+        "null": ""
+      }]
+    }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_human.csvcsv",
+    "dialect": {
+      "delimiter": ",",
+      "header": true
+    },
+    "tableSchema":{
+      "columns": [{
+        "titles": "symbol",
+        "null": ""
+      },{
+        "titles": "aliases",
+        "separator": " ",
+        "null": ""
+      },{
+        "titles": "name",
+        "null": ""
+      },{
+        "titles": "entrez gene id",
+        "null": ""
+      },{
+        "titles": "uniprot",
+        "null": ""
+      },{
+        "titles": "why",
+        "separator": ",",
+        "null": ""
+      },{
+        "titles": "band",
+        "null": ""
+      },{
+        "titles": "location start",
+        "null": "",
+           "datatype": {
+               "base": "integer"
+            }
+      },{
+        "titles": "location end",
+        "null": "",
+           "datatype": {
+               "base": "integer"
+            }
+      },{
+        "titles": "orientation",
+        "null": ""
+      },{
+        "titles": "acc promoter",
+        "null": ""
+      },{
+        "titles": "acc orf",
+        "null": ""
+      },{
+        "titles": "acc cds",
+        "null": ""
+      },{
+        "titles": "references",
+        "separator": ",",
+        "null": ""
+      }]
+    }
   }]
 }
