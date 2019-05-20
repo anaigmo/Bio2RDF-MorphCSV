@@ -1,4 +1,4 @@
-GenAge ID,symbol,name,organism,entrez gene id,avg lifespan change (max obsv),lifespan effect,longevity influence
+GenAge_ID,symbol,name,organism,entrez_gene_id,avg_lifespan_change_(max_obsv),lifespan_effect,longevity_influence
 1,aak-2,AMP-Activated Kinase,Caenorhabditis elegans,181727,,Increase and Decrease,Pro-Longevity
 2,aat-8,Amino Acid Transporter,Caenorhabditis elegans,185079,30,Increase,Anti-Longevity
 3,abu-11,Activated in Blocked Unfolded protein response,Caenorhabditis elegans,173404,28,Increase,Pro-Longevity

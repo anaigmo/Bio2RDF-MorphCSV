@@ -64,13 +64,13 @@ mappings:
   TMgeneage-model:
     sources:
       - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_models.csv~csv]
-    s: http://bio2rdf.org/genage:$(GeneAge ID)
+    s: http://bio2rdf.org/genage:$(GeneAge_ID)
     po:
       - [rdf:type, genagev:Resource]
       - [rdf:type, geneagev:Aging-Related-Gene]
-      - [rdfs:label, "Aging related gene $(GeneAge ID) [genage-model:$(GeneAge ID)]"]
-      - [dcterms:title, Aging related gene $(GeneAge ID)]
-      - [dcterms:identifier, "[genage-model:$(GeneAge ID)]"]
+      - [rdfs:label, "Aging related gene $(GeneAge_ID) [genage-model:$(GeneAge_ID)]"]
+      - [dcterms:title, Aging related gene $(GeneAge_ID)]
+      - [dcterms:identifier, "[genage-model:$(GeneAge_ID)]"]
       - [genagev:gene-symbol, $(symbol)]
       - p: genagev:x-ncbigene
         o:
@@ -78,8 +78,8 @@ mappings:
           condition:
             function: equal
             parameters:
-              - [str1, $(entrez gene id)]
+              - [str1, $(entrez_gene_id)]
               - [str2, $(GeneID)]
-      - [genagev:maximum-percent-observed-average-lifespan-change, $(avg lifespan change (max obsv))]
-      - [genagev:lifespan-effect, $(lifespan effect)]
-      - [genagev:longevity-influence, $(longevity influence)]
+      - [genagev:maximum-percent-observed-average-lifespan-change, $(avg_lifespan_change_(max_obsv))]
+      - [genagev:lifespan-effect, $(lifespan_effect)]
+      - [genagev:longevity-influence, $(longevity_influence)]

@@ -81,7 +81,6 @@
       "header": true
     },
     "tableSchema":{
-      "rowTitles": ["GenAge_ID","symbol","name","organism","entrez_gene_id","avg_lifespan_change_(max_obsv)","lifespan_effect","longevity_influence"],
       "columns": [{
         "titles": "symbol",
         "null": ""
