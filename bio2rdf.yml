@@ -1,0 +1,61 @@
+prefixes:
+  rr: http://www.w3.org/ns/r2rml#
+  rml: http://semweb.mmlab.be/ns/rml#
+  ql: http://semweb.mmlab.be/ns/ql#
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  owl: http://www.w3.org/2002/07/owl#
+  dcterms: http://purl.org/dc/terms/
+  xsd: http://www.w3.org/2001/XMLSchema#
+  fno: http://w3id.org/function/ontology#
+  sql: http://dchaves.oeg-upm.net/resources/function/sql.ttl#
+  bv: "http://bio2rdf.org/bio2rdf_vocabulary:"
+  homogv: "http://bio2rdf.org/homologene_vocabulary:"
+  ncbiv: "http://bio2rdf.org/ncbigene_vocabulary:"
+
+mappings:
+  TMncbigene-gene_info:
+    sources:
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/ncbigene/data/gene_info~csv]
+    s: http://bio2rdf.org/ncbigene:$(GeneID)
+    po:
+      - [rdf:type, ncbiv:Resource]
+      - [rdf:type, ncbiv:Gene]
+      - [rdf:type, "http://bio2rdf.org/ncbigene_vocabulary:$(type_of_gene)-Gene"]
+      - [rdfs:label, "$(description) (symbol:$(Symbol), taxon:$(tax_id)) [ncbigene:$(GeneID)]"]
+      - [dcterms:title, "$(description) (symbol:$(Symbol), taxon:$(tax_id))"]
+      - [dcterms:description, $(description)]
+      - [dcterms:identifier, "ncbigene:$(GeneID)"]
+      - [ncbiv:symbol, $(Symbol)]
+      - [ncbiv:locus, $(LocusTag)]
+      - [ncbiv:symbol-synonym, $(Synonyms)]
+      - [ncbiv:dbxref, $(dbXrefs)]
+      - [ncbiv:chromosome, $(chromosome)]
+      - [ncbiv:map-location, $(map_location)]
+      - [ncbiv:nomenclature-authority, $(Symbol_from_nomenclature_authority)]
+      - [ncbiv:nomenclature-authority-fullname, $(Full_name_from_nomenclature_authority)]
+      - [ncbiv:nomenclature-status, $(Nomenclature_status)]
+      - [ncbiv:other-designations, $(Other_designations)]
+      - [ncbiv:modification-date, $(Modification_date)]
+
+  TMhomologene:
+    sources:
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/homologene/data/homologene.csv~csv]
+    s: http://bio2rdf.org/homologene:$(hid)
+    po:
+      - [rdf:type, homogv:Resource]
+      - [rdf:type, homogv:Homologene-Group]
+      - [rdfs:label, "homologene group $(hid) [homologene:$(hid)]"]
+      - [dcterms:title, homologene group $(hid)]
+      - [dcterms:identifier, "[homologene:$(hid)]"]
+      - p: homogv:x-ncbigene
+        o:
+          - mapping: TMncbigene-gene_info
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(ncbigene)]
+                - [str2, $(GeneID)]
+      - [homogv:gene-symbol, $(genesymbol)]
+      - [homogv:x-gi, "gi:$(gi)"]
+      - [homogv:x-refseq, "refseq:$(refseq)"]
