@@ -83,5 +83,3 @@ mappings:
       - [genagev:maximum-percent-observed-average-lifespan-change, $(avg lifespan change (max obsv))]
       - [genagev:lifespan-effect, $(lifespan effect)]
       - [genagev:longevity-influence, $(longevity influence)]
-      
-
