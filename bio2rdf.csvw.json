@@ -91,19 +91,19 @@
         "titles": "organism",
         "null": ""
       },{
-        "titles": "entrez gene id",
+        "titles": "entrez_gene_id",
         "null": ""
       },{
-        "titles": "avg lifespan change (max obsv)",
+        "titles": "avg_lifespan_change_(max_obsv)",
         "null": "",
         "datatype": {
           "base": "float"
         }
       },{
-        "titles": "lifespan effect",
+        "titles": "lifespan_effect",
         "null": ""
       },{
-        "titles": "longevity influence",
+        "titles": "longevity_influence",
         "null": ""
       }]
     }
