@@ -85,7 +85,7 @@
         "titles": "symbol",
         "null": ""
       },{
-        "titles": "name",
+        "titles": "name_gene",
         "null": ""
       },{
         "titles": "organism",
@@ -94,9 +94,8 @@
         "titles": "entrez_gene_id",
         "null": ""
       },{
-        "titles": "avg_lifespan_change_(max_obsv)",
-        "null": "",
-        "datatype": "float"
+        "titles": "avg_lifespan_change",
+        "null": ""
       },{
         "titles": "lifespan_effect",
         "null": ""

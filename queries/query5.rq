@@ -1,0 +1,11 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ncbiv: <http://bio2rdf.org/ncbigene_vocabulary:>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?gene ?label 
+WHERE {
+	?gene rdf:type ncbiv:Resource ;
+		#ncbiv:locus ?locus .
+		ncbiv:other-designations ?label
+}
+LIMIT 100

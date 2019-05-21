@@ -1,0 +1,13 @@
+{
+  "sources":[
+    {
+      "csvw":"configs/mappings/bio2rdf.csvw.json",
+      "yarrrml": "configs/mappings/bio2rdf.yml",
+      "db": "bio2rdf",
+      "query":[
+      		"configs/queries/query6.rq",
+      		"configs/queries/query7.rq"
+      ]
+    }
+  ]
+}
