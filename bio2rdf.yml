@@ -74,12 +74,12 @@ mappings:
       - [genagev:gene-symbol, $(symbol)]
       - p: genagev:x-ncbigene
         o:
-          mapping: TMncbigene-gene_info
-          condition:
-            function: equal
-            parameters:
-              - [str1, $(entrez_gene_id)]
-              - [str2, $(GeneID)]
+          - mapping: TMncbigene-gene_info
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(entrez_gene_id)]
+                - [str2, $(GeneID)]
       - [genagev:maximum-percent-observed-average-lifespan-change, $(avg_lifespan_change_(max_obsv))]
       - [genagev:lifespan-effect, $(lifespan_effect)]
       - [genagev:longevity-influence, $(longevity_influence)]
