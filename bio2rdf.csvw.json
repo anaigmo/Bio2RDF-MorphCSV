@@ -75,7 +75,7 @@
       }]
     }
   },{
-    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_models.csv~csv",
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_models.csv",
     "dialect": {
       "delimiter": ",",
       "header": true
