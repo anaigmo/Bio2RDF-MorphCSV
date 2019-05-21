@@ -6,6 +6,6 @@ PREFIX genagev: <http://bio2rdf.org/genage_vocabulary:>
 SELECT ?gene ?change_lifespan 
 WHERE {
 	?gene rdf:type genagev:Resource ;
-		genagev:maximum-percent-observed-average-lifespan-change ?change_lifespan
+		genagev:maximum-percent-observed-average-lifespan-change ?change_lifespan .
 }
 LIMIT 10

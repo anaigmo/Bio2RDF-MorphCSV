@@ -104,5 +104,65 @@
         "null": ""
       }]
     }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_human.csv",
+    "dialect": {
+      "delimiter": ",",
+      "header": true
+    },
+    "tableSchema":{
+      "columns": [{
+        "titles": "symbol",
+        "null": ""
+      },{
+        "titles": "aliases",
+        "separator": " ",
+        "null": ""
+      },{
+        "titles": "name",
+        "null": ""
+      },{
+        "titles": "entrez_gene_id",
+        "null": ""
+      },{
+        "titles": "uniprot",
+        "null": ""
+      },{
+        "titles": "why",
+        "separator": ",",
+        "null": ""
+      },{
+        "titles": "band",
+        "null": ""
+      },{
+        "titles": "location_start",
+        "null": "",
+        "datatype": {
+            "base": "integer"
+          }
+      },{
+        "titles": "location_end",
+        "null": "",
+        "datatype": {
+          "base": "integer"
+        }
+      },{
+        "titles": "orientation",
+        "null": ""
+      },{
+        "titles": "acc_promoter",
+        "null": ""
+      },{
+        "titles": "acc_orf",
+        "null": ""
+      },{
+        "titles": "acc_cds",
+        "null": ""
+      },{
+        "titles": "references",
+        "separator": ",",
+        "null": "000"
+      }]
+    }
   }]
 }

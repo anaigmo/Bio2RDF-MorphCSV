@@ -3,9 +3,9 @@ PREFIX ncbiv: <http://bio2rdf.org/ncbigene_vocabulary:>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX genagev: <http://bio2rdf.org/genage_vocabulary:>
 
-SELECT ?gene ?label ?change_perct
+SELECT ?gene ?label
 WHERE {
-	?gene rdf:type genagev:Resource ;
+	?gene rdf:type genagev:Human-Aging-Related-Gene ;
 		rdfs:label ?label .
 }
 LIMIT 10
