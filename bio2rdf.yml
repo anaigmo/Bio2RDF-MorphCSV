@@ -67,7 +67,7 @@ mappings:
     s: http://bio2rdf.org/genage:$(GeneAge_ID)
     po:
       - [rdf:type, genagev:Resource]
-      - [rdf:type, geneagev:Aging-Related-Gene]
+      - [rdf:type, genagev:Aging-Related-Gene]
       - [rdfs:label, "Aging related gene $(GeneAge_ID) [genage-model:$(GeneAge_ID)]"]
       - [dcterms:title, Aging related gene $(GeneAge_ID)]
       - [dcterms:identifier, "[genage-model:$(GeneAge_ID)]"]
