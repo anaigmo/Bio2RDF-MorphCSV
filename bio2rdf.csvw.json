@@ -96,9 +96,7 @@
       },{
         "titles": "avg_lifespan_change_(max_obsv)",
         "null": "",
-        "datatype": {
-          "base": "float"
-        }
+        "datatype": "float"
       },{
         "titles": "lifespan_effect",
         "null": ""
