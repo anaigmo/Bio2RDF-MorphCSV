@@ -13,6 +13,7 @@ prefixes:
   homogv: "http://bio2rdf.org/homologene_vocabulary:"
   ncbiv: "http://bio2rdf.org/ncbigene_vocabulary:"
   genagev: "http://bio2rdf.org/genage_vocabulary:"
+  sidv: "http://bio2rdf.org/sider_vocabulary:"
 
 mappings:
   TMncbigene-gene_info:
@@ -113,3 +114,50 @@ mappings:
       - [genagev:cds-accession, $(acc_cds)]
       - [genagev:orf-accession, $(acc_orf)]
       - [genagev:article, "pubmed:$(references)"]
+      
+  TMsider-se:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/sider/meddra_all_se.csv~csv]
+    s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(STITCH_ID_stereo)_$(UMLS_ID)_$(MedDRA_concept_type)_$(UMLS_ID_for_MedDRA)
+    po:
+      - [rdf:type, sidv:Resource]
+      - [rdf:type, sidv:Side-Effect]
+      - [rdfs:label, "stitch:$(STITCH_ID_flat) $(UMLS_ID) side effect [sider:$(STITCH_ID_flat)_$(UMLS_ID)]"]
+      - [dcterms:title, "stitch:$(STITCH_ID_flat)_$(UMLS_ID)"]
+      - [dcterms:identifier, "sider:$(STITCH_ID_flat)_$(UMLS_ID)"]
+      - [sidv:stitch-flat, "stitch:$(STITCH_ID_flat)"]
+      - [sidv:stitch-stereo, "stitch:$(STITCH_ID_stereo)"]
+      - [sidv:side-effect, "umls:$(UMLS_ID)"]
+      - [rdfs:description, $(Side_effect)]
+      - [rdfs:comment, "$(MedDRA_concept_type), $(UMLS_ID_for_MedDRA)"]
+      
+  TMsider-freq:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/sider/meddra_freq.csv~csv]
+    s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(STITCH_ID_stereo)_$(UMLS_ID)_$(MedDRA_concept_type)_$(UMLS_ID_for_MedDRA)_$(Frequency)
+    po:
+      - [rdf:type, sidv:Resource]
+      - [rdf:type, sidv:Drug-Effect-Frequency]
+      - [rdfs:label, "$(Side_effect) frequency for stitch:$(STITCH_ID_flat) [sider:$(STITCH_ID_flat)_$(UMLS_ID)]"]
+      - [dcterms:title, "$(Side_effect) frequency for stitch:$(STITCH_ID_flat)"]
+      - [dcterms:identifier, "sider:$(STITCH_ID_flat)_$(UMLS_ID)"]
+      - [sidv:drug, "stitch:$(STITCH_ID_flat)"]
+      - [sidv:effect, "umls:$(UMLS_ID)"]
+      - [sidv:placebo, $(Placebo)]
+      - [sidv:frequency, $(Frequency)]
+      - [rdfs:comment, "Concept type:$(MedDRA_concept_type), umls:$(UMLS_ID_for_MedDRA)"]
+    
+  TMsider-indications:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/sider/meddra_all_indications.csv~csv]
+    s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(UMLS_ID)_$(MedDRA_concept_type)
+    po:
+      - [rdf:type, sidv:Resource]
+      - [rdf:type, sidv:Drug-Indication-Association]
+      - [rdfs:label, "stitch:$(STITCH_ID_flat) - meddra:$(UMLS_ID) [sider:$(STITCH_ID_flat)_$(UMLS_ID)]"]
+      - [dcterms:title, "stitch:$(STITCH_ID_flat) - meddra:$(UMLS_ID)"]
+      - [dcterms:identifier, "sider:$(STITCH_ID_flat)_$(UMLS_ID)"]
+      - [sidv:drug, "stitch:$(STITCH_ID_flat)"]
+      - [sidv:indication, "meddra:$(UMLS_ID)"]
+      - [sidv:provenance, $(Detection_method)]
+      - [rdfs:comment, "Concept type:$(MedDRA_concept_type), umls:$(UMLS_ID_for_MedDRA)"]
