@@ -14,7 +14,8 @@ prefixes:
   ncbiv: "http://bio2rdf.org/ncbigene_vocabulary:"
   genagev: "http://bio2rdf.org/genage_vocabulary:"
   sidv: "http://bio2rdf.org/sider_vocabulary:"
-
+  wbv: "http://bio2rdf.org/wormbase_vocabulary:"
+  
 mappings:
   TMncbigene-gene_info:
     sources:
@@ -161,3 +162,44 @@ mappings:
       - [sidv:indication, "meddra:$(UMLS_ID)"]
       - [sidv:provenance, $(Detection_method)]
       - [rdfs:comment, "Concept type:$(MedDRA_concept_type), umls:$(UMLS_ID_for_MedDRA)"]
+
+  TMwormbase-geneid:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/wormbase/WBgeneIDs.csv~csv]
+    s: http://bio2rdf.org/wormbase:$(gene_id)
+    po:
+      - [rdf:type, wbv:Resource]
+      - [rdf:type, wbv:Gene]
+      - [rdfs:label, "$(gene_id) ($(symbol)) [wormbase:$(gene_id)]"]
+      - [dcterms:title, $(gene_id) ($(symbol))]
+      - [dcterms:identifier, "wormbase:$(gene_id)"]
+      - [rdfs:seeAlso, "http://wormbase.org/db/gene/gene?name=$(gene_id)"]
+      - [wbv:cosmid, $(cosmid)]
+      - [wbv:approved-gene-name, $(symbol)]
+      
+  TMwormbase-interaction:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/wormbase/cutinteractions.csv~csv]
+    s: http://bio2rdf.org/wormbase:$(WBInteractionID)
+    po:
+      - [rdf:type, wbv:Resource]
+      - [rdf:type, "http://bio2rdf.org/wormbase_vocabulary:$(Interaction_subtype)-$(Interaction_type)-Interaction"]
+      - [rdfs:label, "$(Interaction_subtype) $(Interaction_type) interaction between $(Interactor1) and $(Interactor_sec) [wormbase:$(WBInteractionID)]"]
+      - [dcterms:title, "$(Interaction_subtype) $(Interaction_type) interaction between $(Interactor1) and $(Interactor_sec)"]
+      - p: wbv:involves
+        o:
+          - mapping: TMwormbase-geneid
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(Interactor1)]
+                - [str2, $(gene_id)]
+      - p: wbv:involves_also
+        o:
+          - mapping: TMwormbase-geneid
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(Interactor_sec)]
+                - [str2, $(gene_id)]
+      - [dcterms:identifier, "wormbase:$(WBInteractionID)"]

@@ -213,5 +213,36 @@
       }],
       "primaryKey": "STITCH_ID_flat,UMLS_ID,MedDRA_concept_type,UMLS_ID_for_MedDRA"
     }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/wormbase/WBgeneIDs.csv",
+    "dialect": {
+      "delimiter": ",",
+      "header": false
+    },
+    "tableSchema":{
+      "primaryKey": "gene_id",
+      "rowTitles": ["taxid", "gene_id", "symbol", "cosmid", "status", "type"],
+      "columns": [{
+        "titles": "symbol",
+        "null": ""
+      },{
+        "titles": "cosmid", 
+        "null": ""
+      }]
+    }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/wormbase/cutinteractions.csv",
+    "dialect": {
+      "delimiter": "\t",
+      "header": false
+    },
+    "tableSchema":{
+      "primaryKey": "WBInteractionID",
+      "rowTitles": ["WBInteractionID", "Interaction_type", "Interaction_subtype", "Interactor1", "Common-name1", "Role1", "Interactor_sec", "Common-name2", "Role2"],
+      "columns": [{
+        "titles": "Interactor_sec",
+        "null": ""
+      }]
+    }
   }]
 }
