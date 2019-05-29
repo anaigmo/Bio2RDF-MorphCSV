@@ -15,6 +15,7 @@ prefixes:
   genagev: "http://bio2rdf.org/genage_vocabulary:"
   sidv: "http://bio2rdf.org/sider_vocabulary:"
   wbv: "http://bio2rdf.org/wormbase_vocabulary:"
+  ndcv: "http://bio2rdf.org/ndc_vocabulary:"
   
 mappings:
   TMncbigene-gene_info:
@@ -203,3 +204,14 @@ mappings:
                 - [str1, $(Interactor_sec)]
                 - [str2, $(gene_id)]
       - [dcterms:identifier, "wormbase:$(WBInteractionID)"]
+
+  TMndc-package:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ndc/package.csv~csv]
+    s: http://bio2rdf.org/ndc:$(NDCPACKAGECODE)
+    po:
+      - [rdf:type, ndcv:Resource]
+      - [rdf:type, ndcv:Package]
+      - [rdfs:label, "$(PACKAGEDESCRIPTION) [ndc:$(NDCPACKAGECODE)]"]
+      - [dcterms:title, $(PACKAGEDESCRIPTION)]
+      - [dcterms:identifier, "ndc:$(NDCPACKAGECODE)"]

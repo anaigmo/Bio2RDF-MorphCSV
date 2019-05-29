@@ -244,5 +244,29 @@
         "null": ""
       }]
     }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ndc/package.csv",
+    "dialect": {
+      "delimiter": "\t",
+      "header": true
+    },
+    "tableSchema":{
+      "primaryKey": "NDCPACKAGECODE",
+      "columns": [{
+        "titles": "STARTMARKETINGDATE",
+        "null": "",
+        "datatype": {
+          "base": "date",
+          "format": "yyyyMMdd"
+        }
+      },{
+        "titles": "ENDMARKETINGDATE",
+        "null": "",
+        "datatype": {
+          "base": "date",
+          "format": "yyyyMMdd"
+        }
+      }]
+    }
   }]
 }
