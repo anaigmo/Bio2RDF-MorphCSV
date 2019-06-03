@@ -215,3 +215,112 @@ mappings:
       - [rdfs:label, "$(PACKAGEDESCRIPTION) [ndc:$(NDCPACKAGECODE)]"]
       - [dcterms:title, $(PACKAGEDESCRIPTION)]
       - [dcterms:identifier, "ndc:$(NDCPACKAGECODE)"]
+
+  TMtaxonomy-division:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/taxonomy/division.csv~csv]
+    s: http://bio2rdf.org/taxonomy_resource:division-id-$(division_id)
+    po:
+      - [rdf:type, taxv:Division]
+      - [rdf:type, taxv:Resource]
+      - [rdfs:label, "$(division_name) [taxonomy_resource:division-id-$(division_id)]"]
+      - [dcterms:title, $(division_name)]
+      - [dcterms:identifier, "taxonomy_resource:division-id-$(division_id)"]
+      - [taxv:division-code, $(division_cde)]
+      - [taxv:comment, $(comments)]
+      
+  TMtaxonomy-gencode:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/taxonomy/gencode.csv~csv]
+    s: http://bio2rdf.org/taxonomy_resource:genetic-code-id-$(genetic_code_id)
+    po:
+      - [rdf:type, taxv:Genetic-Code]
+      - [rdf:type, taxv:Resource]
+      - [rdfs:label, "$(name) [taxonomy_resource:genetic-code-id-$(genetic_code_id)]"]
+      - [dcterms:title, $(name)]
+      - [dcterms:identifier, "taxonomy_resource:genetic-code-id-$(genetic_code_id)"]
+      - [taxv:translation-table, $(cde)]
+      - [taxv:start-codons, $(starts)]
+
+  TMtaxonomy-names:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/taxonomy/names.csv~csv]
+    s: http://bio2rdf.org/taxonomy:$(tax_id)_$(name_txt)
+    po:
+      - [rdf:type, taxv:Resource]
+      - [rdfs:label, "$(name_class): $(name_txt)"]
+      - [taxv:unique-name, $(unique_name)]
+      - [dcterms:identifier, taxonomy:$(tax_id)]
+
+  TMtaxonomy-nodes:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/taxonomy/nodes.csv~csv]
+    s: http://bio2rdf.org/taxonomy:$(tax_id)
+    po:
+      - [rdf:type, taxv:Resource]
+      - [rdfs:subClassOf, "http://bio2rdf.org/taxonomy:$(parent_tax_id)"]
+      - [taxv:rank, "http://bio2rdf.org/taxonomy_resource:$(rank)"]
+      - [taxv:embl-code, "http://bio2rdf.org/taxonomy_resource:$(embl_code)"]
+      - p: taxv:division-id
+        o:
+          - mapping: TMtaxonomy-division
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(division_id)]
+                - [str2, $(division_id)]
+      - p: taxv:inherited-division
+        o:
+         - function: sql:replace
+           parameters:
+             - parameter: sql:valueParameter
+               value:
+                 function: sql:replace
+                 parameters:
+                   - [sql:valueParameter, $(inherited_div_flag)]
+                   - [sql:valueParameter2, "1"]
+                   - [sql:valueParameter3, "TRUE"]
+             - [sql:valueParameter2, "0"]
+             - [sql:valueParameter3, "FALSE"]
+      - p: taxv:genetic-code-id
+        o:
+          - mapping: TMtaxonomy-gencode
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(genetic_code_id)]
+                - [str2, $(genetic_code_id)]
+      - p: taxv:inherited-genetic-code
+        o:
+         - function: sql:replace
+           parameters:
+             - parameter: sql:valueParam 
+               value:
+                 function: sql:replace
+                 parameters:
+                   - [sql:valueParam, $(inherited_GC_flag)]
+                   - [sql:valueParam2, "1"]
+                   - [sql:valueParam2, "TRUE"]
+             - [sql:valueParam2, "0"]
+             - [sql:valueParam2, "FALSE"]
+      - p: taxv:mit-genetic-code-id
+        o:
+          - mapping: TMtaxonomy-gencode
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(mitochondrial_genetic_code_id)]
+                - [str2, $(genetic_code_id)]
+      - p: taxv:inherited-mitochondrial-genetic-code
+        o:
+         - function: sql:replace
+           parameters:
+             - parameter: sql:valueParam 
+               value:
+                 function: sql:replace
+                 parameters:
+                   - [sql:valueParam, $(inherited_MGC_flag)]
+                   - [sql:valueParam2, "1"]
+                   - [sql:valueParam2, "TRUE"]
+             - [sql:valueParam2, "0"]
+             - [sql:valueParam2, "FALSE"]
