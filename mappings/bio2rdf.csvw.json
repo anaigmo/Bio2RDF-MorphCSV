@@ -1,21 +1,87 @@
 {
   "@context": ["http://www.w3.org/ns/csvw"],
   "tables": [{
-    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/homologene/data/homologene.csv",
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2sts",
     "dialect": {
       "delimiter": "\t",
-      "header": false
+      "header": true
     },
     "tableSchema":{
-      "rowTitles": ["hid", "taxid", "ncbigene", "genesymbol", "gi", "refseq"],
+      "primaryKey": "GeneID,UniSTS_ID",
       "columns": [{
-        "titles": "genesymbol",
-        "null": ""
-      }],
-      "primaryKey": "hid,ncbigene"
+        "titles": "UniSTS_ID"
+      }]
     }
   },{
-    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/ncbigene/data/gene_info",
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2unigene",
+    "dialect": {
+      "delimiter": "\t",
+      "header": true
+    },
+    "tableSchema":{
+      "primaryKey": "GeneID,UniGene_cluster",
+      "columns": [{
+        "titles": "UniGene_cluster"
+      }]
+    }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2pubmed",
+    "dialect": {
+      "delimiter": "\t",
+      "header": true
+    },
+    "tableSchema":{
+      "primaryKey": "GeneID,PubMed_ID",
+      "columns": [{
+        "titles": "PubMed_ID"
+      }]
+    }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2vega",
+    "dialect": {
+      "delimiter": "\t",
+      "header": true
+    },
+    "tableSchema":{
+      "primaryKey": "GeneID,Vega_protein_identifier",
+      "columns": [{
+        "titles": "RNA_nucleotide_accession.version",
+        "null": "-"
+      },{
+        "titles": "Vega_rna_identifier",
+        "null": "-"
+      },{
+        "titles": "protein_accession.version",
+        "null": "-"
+      },{
+        "titles": "Vega_protein_identifier",
+        "null": "-"
+      }]
+    }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2ensembl",
+    "dialect": {
+      "delimiter": "\t",
+      "header": true
+    },
+    "tableSchema":{
+      "primaryKey": "Ensembl_protein_identifier",
+      "columns": [{
+        "titles": "RNA_nucleotide_accession.version",
+        "null": "-"
+      },{
+        "titles": "Ensembl_rna_identifier",
+        "null": "-"
+      },{
+        "titles": "protein_accession.version",
+        "null": "-"
+      },{
+        "titles": "Ensembl_protein_identifier",
+        "null": "-"
+      }]
+    }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene_info",
     "dialect": {
       "delimiter": "\t",
       "header": true
@@ -73,6 +139,20 @@
         "titles": "Feature_type",
         "null": "-"
       }]
+    }
+  },{
+    "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/homologene/homologene.csv",
+    "dialect": {
+      "delimiter": "\t",
+      "header": false
+    },
+    "tableSchema":{
+      "rowTitles": ["hid", "taxid", "ncbigene", "genesymbol", "gi", "refseq"],
+      "columns": [{
+        "titles": "genesymbol",
+        "null": ""
+      }],
+      "primaryKey": "hid,ncbigene"
     }
   },{
     "url": "https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_models.csv",

@@ -18,9 +18,56 @@ prefixes:
   ndcv: "http://bio2rdf.org/ndc_vocabulary:"
   
 mappings:
+  TMncbi-gene2sts:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2sts~csv]
+    s: http://bio2rdf.org/ncbigene:$(GeneID)
+    po:
+      - [rdf:type, ncbiv:Resource]
+      - [ncbiv:x-unists, $(UniSTS_ID)]
+
+  TMncbi-gene2unigene:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2unigene~csv]
+    s: http://bio2rdf.org/ncbigene:$(GeneID)
+    po:
+      - [rdf:type, ncbiv:Resource]
+      - [ncbiv:x-unigene, $(UniGene_cluster)]
+
+  TMncbi-gene2pubmed:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2pubmed~csv]
+    s: http://bio2rdf.org/ncbigene:$(GeneID)
+    po:
+      - [rdf:type, ncbiv:Resource]
+      - [ncbiv:x-pubmed, "pubmed:$(PubMed_ID)"]
+
+  TMncbi-gene2vega:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2vega~csv]
+    s: http://bio2rdf.org/ncbigene:$(GeneID)
+    po:
+      - [rdf:type, ncbiv:Resource]
+      - [ncbiv:x-vega.gene, "vega:$(Vega_gene_identifier)"]
+      - [ncbiv:x-vega.rna, "vega:$(Vega_rna_identifier)"]
+      - [ncbiv:x-vega.protein, "vega:$(Vega_protein_identifier)"]
+
+  TMncbi-gene2ensembl:
+    sources:
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2ensembl~csv]
+    s: http://bio2rdf.org/ncbigene:$(GeneID)
+    po:
+      - [rdf:type, ncbiv:Resource]
+      - [ncbiv:x-ensembl.gene, "ensembl:$(Ensembl_gene_identifier)"]
+      - [ncbiv:rna-accession.version, "genbank:$(RNA_nucleotide_accession.version)"]
+      - [ncbiv:x-ensembl.rna, "ensembl:$(Ensembl_rna_identifier)"]
+      - [ncbiv:protein-accession, "genbank:$(protein_accession.version)"]
+      - [ncbiv:x-ensembl.protein, "ensembl:$(Ensembl_protein_identifier)"]
+      - [ncbiv:x-ensembl.gene, "http://rdf.ebi.ac.uk/resource/ensembl/$(Ensembl_gene_identifier)"]
+
   TMncbigene-gene_info:
     sources:
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/ncbigene/data/gene_info~csv]
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene_info~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]
@@ -44,7 +91,7 @@ mappings:
 
   TMhomologene:
     sources:
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/homologene/data/homologene.csv~csv]
+      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/homologene/homologene.csv~csv]
     s: http://bio2rdf.org/homologene:$(hid)
     po:
       - [rdf:type, homogv:Resource]
