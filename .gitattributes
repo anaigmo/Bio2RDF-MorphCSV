@@ -1,0 +1,4 @@
+configs/Bio2RDF/data/taxonomy/nodes.csv filter=lfs diff=lfs merge=lfs -text
+configs/Bio2RDF/data/taxonomy/names.csv filter=lfs diff=lfs merge=lfs -text
+data/taxonomy/names.csv filter=lfs diff=lfs merge=lfs -text
+data/taxonomy/nodes.csv filter=lfs diff=lfs merge=lfs -text
