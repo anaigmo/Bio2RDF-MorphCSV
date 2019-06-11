@@ -20,7 +20,7 @@ prefixes:
 mappings:
   TMncbi-gene2sts:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2sts~csv]
+      - [./configs/Bio2RDF/data/ncbigene/gene2sts~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]
@@ -28,7 +28,7 @@ mappings:
 
   TMncbi-gene2unigene:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2unigene~csv]
+      - [./configs/Bio2RDF/data/ncbigene/gene2unigene~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]
@@ -36,7 +36,7 @@ mappings:
 
   TMncbi-gene2pubmed:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2pubmed~csv]
+      - [./configs/Bio2RDF/data/ncbigene/gene2pubmed~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]
@@ -44,7 +44,7 @@ mappings:
 
   TMncbi-gene2vega:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2vega~csv]
+      - [./configs/Bio2RDF/data/ncbigene/gene2vega~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]
@@ -54,7 +54,7 @@ mappings:
 
   TMncbi-gene2ensembl:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene2ensembl~csv]
+      - [./configs/Bio2RDF/data/ncbigene/gene2ensembl~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]
@@ -63,11 +63,11 @@ mappings:
       - [ncbiv:x-ensembl.rna, "ensembl:$(Ensembl_rna_identifier)"]
       - [ncbiv:protein-accession, "genbank:$(protein_accession.version)"]
       - [ncbiv:x-ensembl.protein, "ensembl:$(Ensembl_protein_identifier)"]
-      - [ncbiv:x-ensembl.gene, "http://rdf.ebi.ac.uk/resource/ensembl/$(Ensembl_gene_identifier)"]
+      - [rdfs:seeAlso, "http://rdf.ebi.ac.uk/resource/ensembl/$(Ensembl_gene_identifier)"]
 
   TMncbigene-gene_info:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ncbigene/gene_info~csv]
+      - [./configs/Bio2RDF/data/ncbigene/gene_info~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]
@@ -91,7 +91,7 @@ mappings:
 
   TMhomologene:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/homologene/homologene.csv~csv]
+      - [./configs/Bio2RDF/data/homologene/homologene.csv~csv]
     s: http://bio2rdf.org/homologene:$(hid)
     po:
       - [rdf:type, homogv:Resource]
@@ -113,7 +113,7 @@ mappings:
       
   TMgenage-model:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_models.csv~csv]
+      - [./configs/Bio2RDF/data/genage/genage_models.csv~csv]
     s: http://bio2rdf.org/genage:$(GenAge_ID)
     po:
       - [rdf:type, genagev:Resource]
@@ -136,7 +136,7 @@ mappings:
       
   TMgeneage-human:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/genage/genage_human.csv~csv]
+      - [./configs/Bio2RDF/data/genage/genage_human.csv~csv]
     s: http://bio2rdf.org/hagr:$(GenAge_ID)
     po:
       - [rdf:type, genagev:Resource]
@@ -166,7 +166,7 @@ mappings:
       
   TMsider-se:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/sider/meddra_all_se.csv~csv]
+      - [./configs/Bio2RDF/data/sider/meddra_all_se.csv~csv]
     s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(STITCH_ID_stereo)_$(UMLS_ID)_$(MedDRA_concept_type)_$(UMLS_ID_for_MedDRA)
     po:
       - [rdf:type, sidv:Resource]
@@ -182,7 +182,7 @@ mappings:
       
   TMsider-freq:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/sider/meddra_freq.csv~csv]
+      - [./configs/Bio2RDF/data/sider/meddra_freq.csv~csv]
     s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(STITCH_ID_stereo)_$(UMLS_ID)_$(MedDRA_concept_type)_$(UMLS_ID_for_MedDRA)_$(Frequency)
     po:
       - [rdf:type, sidv:Resource]
@@ -198,7 +198,7 @@ mappings:
     
   TMsider-indications:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/sider/meddra_all_indications.csv~csv]
+      - [./configs/Bio2RDF/data/sider/meddra_all_indications.csv~csv]
     s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(UMLS_ID)_$(MedDRA_concept_type)
     po:
       - [rdf:type, sidv:Resource]
@@ -213,7 +213,7 @@ mappings:
 
   TMwormbase-geneid:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/wormbase/WBgeneIDs.csv~csv]
+      - [./configs/Bio2RDF/data/wormbase/WBgeneIDs.csv~csv]
     s: http://bio2rdf.org/wormbase:$(gene_id)
     po:
       - [rdf:type, wbv:Resource]
@@ -227,7 +227,7 @@ mappings:
       
   TMwormbase-interaction:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/wormbase/cutinteractions.csv~csv]
+      - [./configs/Bio2RDF/data/wormbase/cutinteractions.csv~csv]
     s: http://bio2rdf.org/wormbase:$(WBInteractionID)
     po:
       - [rdf:type, wbv:Resource]
@@ -254,7 +254,7 @@ mappings:
 
   TMndc-package:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/ndc/package.csv~csv]
+      - [./configs/Bio2RDF/data/ndc/package.csv~csv]
     s: http://bio2rdf.org/ndc:$(NDCPACKAGECODE)
     po:
       - [rdf:type, ndcv:Resource]
@@ -265,7 +265,7 @@ mappings:
 
   TMtaxonomy-division:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/taxonomy/division.csv~csv]
+      - [./configs/Bio2RDF/data/taxonomy/division.csv~csv]
     s: http://bio2rdf.org/taxonomy_resource:division-id-$(division_id)
     po:
       - [rdf:type, taxv:Division]
@@ -278,7 +278,7 @@ mappings:
       
   TMtaxonomy-gencode:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/taxonomy/gencode.csv~csv]
+      - [./configs/Bio2RDF/data/taxonomy/gencode.csv~csv]
     s: http://bio2rdf.org/taxonomy_resource:genetic-code-id-$(genetic_code_id)
     po:
       - [rdf:type, taxv:Genetic-Code]
@@ -291,7 +291,7 @@ mappings:
 
   TMtaxonomy-names:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/taxonomy/names.csv~csv]
+      - [./configs/Bio2RDF/data/taxonomy/names.csv~csv]
     s: http://bio2rdf.org/taxonomy:$(tax_id)_$(name_txt)
     po:
       - [rdf:type, taxv:Resource]
@@ -301,7 +301,7 @@ mappings:
 
   TMtaxonomy-nodes:
     sources:
-      - [https://raw.githubusercontent.com/anaigmo/Bio2RDF/master/data/taxonomy/nodes.csv~csv]
+      - [./configs/Bio2RDF/data/taxonomy/nodes.csv~csv]
     s: http://bio2rdf.org/taxonomy:$(tax_id)
     po:
       - [rdf:type, taxv:Resource]
