@@ -390,13 +390,19 @@
         "separator": "; "
       },{
         "titles": "ACTIVE_NUMERATOR_STRENGTH",
-        "null": ""
+        "null": "",
+        "separator": "; ",
+        "datatype": {
+          "base": "integer"
+        }
       },{
         "titles": "ACTIVE_INGRED_UNIT",
-        "null": ""
+        "null": "",
+        "separator": "; "
       },{
         "titles": "PHARM_CLASSES",
-        "null": ""
+        "null": "",
+        "separator": ","
       },{
         "titles": "DEASCHEDULE",
         "null": ""

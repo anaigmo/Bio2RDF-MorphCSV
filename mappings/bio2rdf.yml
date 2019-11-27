@@ -98,7 +98,7 @@ mappings:
       - [rdf:type, homogv:Homologene-Group]
       - [rdfs:label, "homologene group $(hid) [homologene:$(hid)]"]
       - [dcterms:title, homologene group $(hid)]
-      - [dcterms:identifier, "[homologene:$(hid)]"]
+      - [dcterms:identifier, "homologene:$(hid)"]
       - p: homogv:x-ncbigene
         o:
           - mapping: TMncbigene-gene_info
@@ -107,9 +107,17 @@ mappings:
               parameters:
                 - [str1, $(ncbigene)]
                 - [str2, $(GeneID)]
+      - p: homogv:x-taxid
+        o:
+          - mapping: TMncbigene-gene_info
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(taxid)]
+                - [str2, $(tax_id)]
       - [homogv:gene-symbol, $(genesymbol)]
-      - [homogv:x-gi, "gi:$(gi)"]
-      - [homogv:x-refseq, "refseq:$(refseq)"]
+      - [homogv:x-gi, "http://bio2rdf.org/gi:$(gi)"]
+      - [homogv:x-refseq, "http://bio2rdf.org/refseq:$(refseq)"]
       
   TMgenage-model:
     sources:
@@ -120,7 +128,7 @@ mappings:
       - [rdf:type, genagev:Aging-Related-Gene]
       - [rdfs:label, "Aging related gene $(GenAge_ID) $(name_gene) [genage-model:$(GenAge_ID)]"]
       - [dcterms:title, Aging related gene $(GenAge_ID) $(name_gene)]
-      - [dcterms:identifier, "[genage-model:$(GenAge_ID)]"]
+      - [dcterms:identifier, "genage-model:$(GenAge_ID)"]
       - [genagev:gene-symbol, $(symbol)]
       - p: genagev:x-ncbigene
         o:
@@ -152,8 +160,9 @@ mappings:
       - [rdf:type, genagev:Human-Aging-Related-Gene]
       - [rdfs:label, "Human aging related gene $(GenAge_ID) [genage-human:$(GenAge_ID)]"]
       - [dcterms:title, Human aging related gene $(GenAge_ID)]
-      - [dcterms:identifier, "[genage-human:$(GenAge_ID)]"]
+      - [dcterms:identifier, "genage-human:$(GenAge_ID)"]
       - [genagev:alias, $(aliases)]
+      - [genagev:hgnc.symbol, $(symbol)]
       - p: genagev:x-ncbigene
         o:
           - mapping: TMncbigene-gene_info
@@ -171,7 +180,7 @@ mappings:
       - [genagev:promoter-accession, $(acc_promoter)]
       - [genagev:cds-accession, $(acc_cds)]
       - [genagev:orf-accession, $(acc_orf)]
-      - [genagev:article, "pubmed:$(references)"]
+      - [genagev:article, "http://bio2rdf.org/pubmed:$(references)"]
       
   TMsider-se:
     sources:
@@ -269,7 +278,7 @@ mappings:
                 - [str2, $(gene_id)]
       - [dcterms:identifier, "wormbase:$(WBInteractionID)"]
 
-  TMndc-product:
+  TMndc-product1:
     sources:
       - [./configs/Bio2RDF-MorphCSV/data/ndc/product.csv~csv]
     s: http://bio2rdf.org/ndc:$(PRODUCTID)
@@ -287,6 +296,25 @@ mappings:
               parameters:
                 - [str1, $(PRODUCTID)]
                 - [str2, $(PRODUCTID)]
+      - p: ndcv:has-part
+        o:
+          - mapping: TMndc-product2
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(ACTIVE_NUMERATOR_STRENGTH)]
+                - [str2, $(ACTIVE_NUMERATOR_STRENGTH)]
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(ACTIVE_INGRED_UNIT)]
+                - [str2, $(ACTIVE_INGRED_UNIT)]
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(SUBSTANCENAME)]
+                - [str2, $(SUBSTANCENAME)]
+
       - [ndcv:product-type, $(PRODUCTTYPENAME)]
       - [ndcv:product-id, $(PRODUCTNDC)]
       - [ndcv:proprietary-name, $(PROPRIETARYNAME)]
@@ -301,6 +329,18 @@ mappings:
       - [ndcv:labeller, $(LABELERNAME)]
       - [ndcv:pharmacological-class, $(PHARM_CLASSES)]
       - [ndcv:ingredient, $(SUBSTANCENAME)]
+
+  TMndc-product2:
+    sources:
+      - [./configs/Bio2RDF-MorphCSV/data/ndc/product.csv~csv]
+    s: http://bio2rdf.org/ndc:$(PRODUCTNDC)_$(SUBSTANCENAME)
+    po:
+      - [rdf:type, ndcv:Resource]
+      - [rdfs:label, "$(ACTIVE_NUMERATOR_STRENGTH)$(ACTIVE_INGRED_UNIT) $(SUBSTANCENAME) [ndc_resource:$(PRODUCTNDC)_$(SUBSTANCENAME)"]
+      - [dcterms:title, "$(ACTIVE_NUMERATOR_STRENGTH)$(ACTIVE_INGRED_UNIT) $(SUBSTANCENAME)"]
+      - [dcterms:identifier, "ndc_resource:$(PRODUCTNDC)_$(SUBSTANCENAME)"]
+      - [ndcv:amount, $(ACTIVE_NUMERATOR_STRENGTH)]
+      - [ndcv:amount_unit, $(ACTIVE_INGRED_UNIT)]
       
   TMndc-package:
     sources:
