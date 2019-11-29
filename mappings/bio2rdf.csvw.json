@@ -437,7 +437,7 @@
   },{
     "url": "./configs/Bio2RDF-MorphCSV/data/hgnc/hgnc.csv",
     "dialect": {
-      "delimiter": ",",
+      "delimiter": "\t",
       "header": true
     },
     "tableSchema":{
@@ -458,19 +458,19 @@
         "null": ""
       },{
         "titles": "Previous_Symbols",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Previous_Names",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Synonyms",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Name_Synonyms",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Chromosome",
@@ -505,7 +505,7 @@
         }
       },{
         "titles": "Accession_Numbers",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Enzyme_IDs",
@@ -525,18 +525,18 @@
         "null": ""
       },{
         "titles": "Specialist_Database_IDs",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Pubmed_IDs",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "RefSeq_IDs",
         "null": ""
       },{
         "titles": "Gene_Family_Tag",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Gene_family_description",
@@ -546,19 +546,19 @@
         "null": ""
       },{
         "titles": "Primary_IDs",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Secondary_IDs",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "CCDS_IDs",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "VEGA_IDs",
-        "separator": "; ",
+        "separator": ", ",
         "null": ""
       },{
         "titles": "Locus_Specific_Databases",
