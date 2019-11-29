@@ -8,7 +8,7 @@ prefixes:
   dcterms: http://purl.org/dc/terms/
   xsd: http://www.w3.org/2001/XMLSchema#
   fno: http://w3id.org/function/ontology#
-  sql: http://dchaves.oeg-upm.net/resources/function/sql.ttl#
+  sql: http://w3.org/ns/sql#
   bv: "http://bio2rdf.org/bio2rdf_vocabulary:"
   homogv: "http://bio2rdf.org/homologene_vocabulary:"
   ncbiv: "http://bio2rdf.org/ncbigene_vocabulary:"
@@ -65,6 +65,61 @@ mappings:
       - [ncbiv:x-ensembl.protein, "ensembl:$(Ensembl_protein_identifier)"]
       - [rdfs:seeAlso, "http://rdf.ebi.ac.uk/resource/ensembl/$(Ensembl_gene_identifier)"]
 
+  TMncbigene-gene2go1:
+    sources:
+      - [./configs/Bio2RDF-MorphCSV/data/ncbigene/gene2go~csv]
+    s: http://bio2rdf.org/ncbigene:$(GeneID)
+    po:
+      - [rdf:type, ncbiv:Resource]
+      - [ncbiv:go-term, $(GO_ID)]
+      - p: ncbiv:gene-$(Category)-association
+        o:
+          - mapping: TMncbigene-gene2go2
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(GO_ID)]
+                - [str2, $(GO_ID)]
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(GeneID)]
+                - [str2, $(GeneID)]
+
+  TMncbigene-gene2go2:
+    sources:
+      - [./configs/Bio2RDF-MorphCSV/data/ncbigene/gene2go~csv]
+    s: http://bio2rdf.org/ncbigene_resource:$(GeneID)_$(GO_ID)
+    po:
+      - [rdf:type, ncbiv:Resource]
+      - [rdfs:label, "association between $(GeneID) and $(GO_ID) [ncbigene_resource:$(GeneID)_$(GO_ID)]"]
+      - [dcterms:title, "association between $(GeneID) and $(GO_ID)"]
+      - [dcterms:identifier, "ncbigene_resource:$(GeneID)_$(GO_ID)"]
+      - [ncbiv:evidence, "http://bio2rdf.org/eco:$(Evidence)"]
+      - p: ncbiv:gene
+        o:
+          - mapping: TMncbigene-gene_info
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(GeneID)]
+                - [str2, $(GeneID)]
+      - [ncbiv:go-category, "ncbigene_vocabulary:$(Category)"]
+      - [ncbiv:go-term, $(GO_ID)]
+      - p: ncbiv:go-term
+        o:
+        - function: sql:concat
+          parameters:
+            - [sql:valueParam, "http://purl.obolibrary.org/obo/"]
+            - parameter: sql:valueParam2 
+              value:
+                function: sql:replace
+                parameters:
+                  - [sql:valueParam, $(GO_ID)]
+                  - [sql:valueParam2, ":"]
+                  - [sql:valueParam3, "_"]
+
+
   TMncbigene-gene_info:
     sources:
       - [./configs/Bio2RDF-MorphCSV/data/ncbigene/gene_info~csv]
@@ -77,6 +132,15 @@ mappings:
       - [dcterms:title, "$(description) (symbol:$(Symbol), taxon:$(tax_id))"]
       - [dcterms:description, $(description)]
       - [dcterms:identifier, "ncbigene:$(GeneID)"]
+      - p: ncbiv:x-taxonomy
+        o:
+          - mapping: TMtaxonomy-names
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(tax_id)]
+                - [str2, $(tax_id)]
+
       - [ncbiv:symbol, $(Symbol)]
       - [ncbiv:locus, $(LocusTag)]
       - [ncbiv:symbol-synonym, $(Synonyms)]
@@ -109,7 +173,7 @@ mappings:
                 - [str2, $(GeneID)]
       - p: homogv:x-taxid
         o:
-          - mapping: TMncbigene-gene_info
+          - mapping: TMtaxonomy-names
             condition:
               function: equal
               parameters:
@@ -149,7 +213,6 @@ mappings:
       - [genagev:maximum-percent-observed-average-lifespan-change, $(avg_lifespan_change)]
       - [genagev:lifespan-effect, $(lifespan_effect)]
       - [genagev:longevity-influence, $(longevity_influence)]
-
       
   TMgeneage-human:
     sources:
@@ -182,53 +245,6 @@ mappings:
       - [genagev:orf-accession, $(acc_orf)]
       - [genagev:article, "http://bio2rdf.org/pubmed:$(references)"]
       
-  TMsider-se:
-    sources:
-      - [./configs/Bio2RDF-MorphCSV/data/sider/meddra_all_se.csv~csv]
-    s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(STITCH_ID_stereo)_$(UMLS_ID)_$(MedDRA_concept_type)_$(UMLS_ID_for_MedDRA)
-    po:
-      - [rdf:type, sidv:Resource]
-      - [rdf:type, sidv:Side-Effect]
-      - [rdfs:label, "stitch:$(STITCH_ID_flat) $(UMLS_ID) side effect [sider:$(STITCH_ID_flat)_$(UMLS_ID)]"]
-      - [dcterms:title, "stitch:$(STITCH_ID_flat)_$(UMLS_ID)"]
-      - [dcterms:identifier, "sider:$(STITCH_ID_flat)_$(UMLS_ID)"]
-      - [sidv:stitch-flat, "stitch:$(STITCH_ID_flat)"]
-      - [sidv:stitch-stereo, "stitch:$(STITCH_ID_stereo)"]
-      - [sidv:side-effect, "umls:$(UMLS_ID)"]
-      - [rdfs:description, $(Side_effect)]
-      - [rdfs:comment, "$(MedDRA_concept_type), $(UMLS_ID_for_MedDRA)"]
-      
-  TMsider-freq:
-    sources:
-      - [./configs/Bio2RDF-MorphCSV/data/sider/meddra_freq.csv~csv]
-    s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(STITCH_ID_stereo)_$(UMLS_ID)_$(MedDRA_concept_type)_$(UMLS_ID_for_MedDRA)_$(Frequency)
-    po:
-      - [rdf:type, sidv:Resource]
-      - [rdf:type, sidv:Drug-Effect-Frequency]
-      - [rdfs:label, "$(Side_effect) frequency for stitch:$(STITCH_ID_flat) [sider:$(STITCH_ID_flat)_$(UMLS_ID)]"]
-      - [dcterms:title, "$(Side_effect) frequency for stitch:$(STITCH_ID_flat)"]
-      - [dcterms:identifier, "sider:$(STITCH_ID_flat)_$(UMLS_ID)"]
-      - [sidv:drug, "stitch:$(STITCH_ID_flat)"]
-      - [sidv:effect, "umls:$(UMLS_ID)"]
-      - [sidv:placebo, $(Placebo)]
-      - [sidv:frequency, $(Frequency)]
-      - [rdfs:comment, "Concept type:$(MedDRA_concept_type), umls:$(UMLS_ID_for_MedDRA)"]
-    
-  TMsider-indications:
-    sources:
-      - [./configs/Bio2RDF-MorphCSV/data/sider/meddra_all_indications.csv~csv]
-    s: http://bio2rdf.org/sider:$(STITCH_ID_flat)_$(UMLS_ID)_$(MedDRA_concept_type)
-    po:
-      - [rdf:type, sidv:Resource]
-      - [rdf:type, sidv:Drug-Indication-Association]
-      - [rdfs:label, "stitch:$(STITCH_ID_flat) - meddra:$(UMLS_ID) [sider:$(STITCH_ID_flat)_$(UMLS_ID)]"]
-      - [dcterms:title, "stitch:$(STITCH_ID_flat) - meddra:$(UMLS_ID)"]
-      - [dcterms:identifier, "sider:$(STITCH_ID_flat)_$(UMLS_ID)"]
-      - [sidv:drug, "stitch:$(STITCH_ID_flat)"]
-      - [sidv:indication, "meddra:$(UMLS_ID)"]
-      - [sidv:provenance, $(Detection_method)]
-      - [rdfs:comment, "Concept type:$(MedDRA_concept_type), umls:$(UMLS_ID_for_MedDRA)"]
-
   TMwormbase-geneid:
     sources:
       - [./configs/Bio2RDF-MorphCSV/data/wormbase/WBgeneIDs.csv~csv]
@@ -258,8 +274,8 @@ mappings:
     po:
       - [rdf:type, wbv:Resource]
       - [rdf:type, "http://bio2rdf.org/wormbase_vocabulary:$(Interaction_subtype)-$(Interaction_type)-Interaction"]
-      - [rdfs:label, "$(Interaction_subtype) $(Interaction_type) interaction between $(Interactor1) and $(Interactor_sec) [wormbase:$(WBInteractionID)]"]
-      - [dcterms:title, "$(Interaction_subtype) $(Interaction_type) interaction between $(Interactor1) and $(Interactor_sec)"]
+      - [rdfs:label, "$(Interaction_subtype) $(Interaction_type) interaction between $(Interactor1) and $(Interactor2) [wormbase:$(WBInteractionID)]"]
+      - [dcterms:title, "$(Interaction_subtype) $(Interaction_type) interaction between $(Interactor1) and $(Interactor2)"]
       - p: wbv:involves
         o:
           - mapping: TMwormbase-geneid
@@ -268,91 +284,91 @@ mappings:
               parameters:
                 - [str1, $(Interactor1)]
                 - [str2, $(gene_id)]
-      - p: wbv:involves_also
+      - p: wbv:involves
         o:
           - mapping: TMwormbase-geneid
             condition:
               function: equal
               parameters:
-                - [str1, $(Interactor_sec)]
+                - [str1, $(Interactor2)]
                 - [str2, $(gene_id)]
       - [dcterms:identifier, "wormbase:$(WBInteractionID)"]
 
-  TMndc-product1:
+  TMwormbase-phenotype_association:
     sources:
-      - [./configs/Bio2RDF-MorphCSV/data/ndc/product.csv~csv]
-    s: http://bio2rdf.org/ndc:$(PRODUCTID)
+      - [./configs/Bio2RDF-MorphCSV/data/wormbase/WBphenotype_association.csv~csv]
+    s: http://bio2rdf.org/wormbase_resource:$(gene_id)_$(phenotype)_$(variant)
     po:
-      - [rdf:type, ndcv:Resource]
-      - [rdf:type, ndcv:Product]
-      - [rdfs:label, "$(PROPRIETARYNAME) [ndc:$(PRODUCTID)]"]
-      - [dcterms:title, $(PROPRIETARYNAME)]
-      - [dcterms:identifier, "ndc:$(PRODUCTID)"]
-      - p: ndcv:has-package
+      - [rdf:type, wbv:Resource]
+      - p: rdf:type
         o:
-          - mapping: TMndc-package
-            condition:
-              function: equal
-              parameters:
-                - [str1, $(PRODUCTID)]
-                - [str2, $(PRODUCTID)]
-      - p: ndcv:has-part
+        - function: sql:replace
+          parameters:
+            - parameter: sql:valueParam 
+              value:
+                function: sql:replace
+                parameters:
+                  - [sql:valueParam, $(association)]
+                  - [sql:valueParam2, "NOT"]
+                  - [sql:valueParam3, "wbv:Negative-Gene-Phenotype-Association"]
+            - [sql:valueParam2, "YES"]
+            - [sql:valueParam3, "wbv:Gene-Phenotype-Association"]
+      - [rdfs:label, "gene-phenotype association between $(gene_id) and $(phenotype) under condition $(variant) [wormbase_resource:$(gene_id)_$(phenotype)_$(variant)]"]
+      - [dcterms:title, "gene-phenotype association between $(gene_id) and $(phenotype) under condition $(variant)"]
+      - [dcterms:identifier, "wormbase_resource:$(gene_id)_$(phenotype)_$(variant)"]
+      - [wbv:phenotype, $(phenotype)]
+      - p: wbv:gene
         o:
-          - mapping: TMndc-product2
+          - mapping: TMwormbase-geneid
             condition:
               function: equal
               parameters:
-                - [str1, $(ACTIVE_NUMERATOR_STRENGTH)]
-                - [str2, $(ACTIVE_NUMERATOR_STRENGTH)]
-            condition:
-              function: equal
-              parameters:
-                - [str1, $(ACTIVE_INGRED_UNIT)]
-                - [str2, $(ACTIVE_INGRED_UNIT)]
-            condition:
-              function: equal
-              parameters:
-                - [str1, $(SUBSTANCENAME)]
-                - [str2, $(SUBSTANCENAME)]
+                - [str1, $(gene_id)]
+                - [str2, $(gene_id)]
+      - [wbv:evidence-type, $(evidence)]
+      - [wbv:condition, $(variant)]
 
-      - [ndcv:product-type, $(PRODUCTTYPENAME)]
-      - [ndcv:product-id, $(PRODUCTNDC)]
-      - [ndcv:proprietary-name, $(PROPRIETARYNAME)]
-      - [ndcv:trade-name-suffix, $(PROPRIETARYNAMESUFFIX)]
-      - [ndcv:non-proprietary-anem, $(NONPROPRIETARY)]
-      - [ndcv:dosage-form, $(DOSAGEFORMNAME)]
-      - [ndcv:route, $(ROUTENAME)]
-      - [ndcv:start-marketing-date, $(STARTMARKETINGDATE)]
-      - [ndcv:end-marketing-date, $(ENDMARKETINGDATE)]
-      - [ndcv:marketing-category, $(MARKETINGCATEGORYNAME)]
-      - [ndcv:application-number, $(APPLICATIONNUMBER)]
-      - [ndcv:labeller, $(LABELERNAME)]
-      - [ndcv:pharmacological-class, $(PHARM_CLASSES)]
-      - [ndcv:ingredient, $(SUBSTANCENAME)]
-
-  TMndc-product2:
+  TMwormbase-gene_association:
     sources:
-      - [./configs/Bio2RDF-MorphCSV/data/ndc/product.csv~csv]
-    s: http://bio2rdf.org/ndc:$(PRODUCTNDC)_$(SUBSTANCENAME)
+      - [./configs/Bio2RDF-MorphCSV/data/wormbase/WBgene_association.csv~csv]
+    s: http://bio2rdf.org/wormbase_resource:$(gene_id)_$(GO_id)_$(evidence)
     po:
-      - [rdf:type, ndcv:Resource]
-      - [rdfs:label, "$(ACTIVE_NUMERATOR_STRENGTH)$(ACTIVE_INGRED_UNIT) $(SUBSTANCENAME) [ndc_resource:$(PRODUCTNDC)_$(SUBSTANCENAME)"]
-      - [dcterms:title, "$(ACTIVE_NUMERATOR_STRENGTH)$(ACTIVE_INGRED_UNIT) $(SUBSTANCENAME)"]
-      - [dcterms:identifier, "ndc_resource:$(PRODUCTNDC)_$(SUBSTANCENAME)"]
-      - [ndcv:amount, $(ACTIVE_NUMERATOR_STRENGTH)]
-      - [ndcv:amount_unit, $(ACTIVE_INGRED_UNIT)]
-      
-  TMndc-package:
-    sources:
-      - [./configs/Bio2RDF-MorphCSV/data/ndc/package.csv~csv]
-    s: http://bio2rdf.org/ndc:$(NDCPACKAGECODE)
-    po:
-      - [rdf:type, ndcv:Resource]
-      - [rdf:type, ndcv:Package]
-      - [rdfs:label, "$(PACKAGEDESCRIPTION) [ndc:$(NDCPACKAGECODE)]"]
-      - [dcterms:title, $(PACKAGEDESCRIPTION)]
-      - [dcterms:identifier, "ndc:$(NDCPACKAGECODE)"]
-      - [ndcv:product, $(PRODUCTID)]
+      - [rdf:type, wbv:Resource]
+      - [rdf:type, wbv:Gene-GO-Association]
+      - [rdfs:label, "$(gene_id) $(GO_id) association [wormbase_resource:$(gene_id)_$(GO_id)_$(evidence)]"]
+      - [dcterms:title, "$(gene_id) $(GO_id) association"]
+      - [dcterms:identifier, "wormbase_resource:$(gene_id)_$(GO_id)_$(evidence)"]
+      - p: wbv:x-taxid
+        o:
+          - mapping: TMtaxonomy-names
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(taxid)]
+                - [str2, $(tax_id)]
+      - p: wbv:gene
+        o:
+          - mapping: TMwormbase-geneid
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(gene_id)]
+                - [str2, $(gene_id)]
+      - [wbv:evidence-type, $(evidence)]
+      - [wbv:x-go, $(GO_id)]
+      - p: rdfs:seeAlso
+        o:
+        - function: sql:concat
+          parameters:
+            - [sql:valueParam, "http://purl.obolibrary.org/obo/"]
+            - parameter: sql:valueParam2 
+              value:
+                function: sql:replace
+                parameters:
+                  - [sql:valueParam, $(GO_id)]
+                  - [sql:valueParam2, ":"]
+                  - [sql:valueParam3, "_"]
+      - [wbv:publication, $(references)]
 
   TMtaxonomy-division:
     sources:
@@ -426,3 +442,126 @@ mappings:
                 - [str1, $(mitochondrial_genetic_code_id)]
                 - [str2, $(genetic_code_id)]
       - [taxv:inherited-mitochondrial-genetic-code, $(inherited_MGC_flag)]
+
+  TMhgnc1:
+    sources:
+      - [./configs/Bio2RDF-MorphCSV/data/hgnc/hgnc.csv~csv]
+    s: http://bio2rdf.org/$(HGNC_ID)
+    po:
+      - [rdf:type, hgncv:Resource]
+      - [rdf:type, hgncv:Gene-Symbol]
+      - [rdfs:label, Gene Symbol for $(Approved Symbol) [$(HGNC_ID)]]
+      - [dcterms:title, Gene Symbol for $(Approved_Symbol)]
+      - [dcterms:identifier, [$(HGNC_ID)]]
+      - [hgncv:approved-symbol, $(Approved_Symbol)]
+      - p: hgncv:has-approved-symbol
+        o:
+          - mapping: TMhgnc2
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(Approved_Symbol)]
+                - [str2, $(Approved_Symbol)]
+      - [hgncv:approved-name, $(Approved_Name)]
+      - p: hgncv:status
+        o:
+        - function: sql:concat
+          parameters:
+            - [sql:valueParam, "hgncv:"]
+            - parameter: sql:valueParam2 
+              value:
+                function: sql:replace
+                parameters:
+                  - [sql:valueParam, $(Status)]
+                  - [sql:valueParam2, " "]
+                  - [sql:valueParam3, "-"]
+      - p: hgncv:locus
+        o:
+          - mapping: TMhgnc3
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(HGNC_ID)]
+                - [str2, $(HGNC_ID)]
+      - [hgncv:previous-symbol, $(Previous_Symbols)]
+      - [hgncv:previous-name, $(Previous_Names)]
+      - [hgncv:name-synonym, $(Name_Synonyms)]
+      - [hgncv:synonym, $(Synonyms)]
+      - [hgncv:chromosome, $(Chromosome)]
+      - [hgncv:date-approved, $(Date_Approved)]
+      - [hgncv:date-modified, $(Date_Modified)]
+      - [hgncv:date-symbol-changed, $(Date_Symbol_Changed)]
+      - [hgncv:date-name-changed, $(Date_Name_Changed)]
+      - [hgncv:accession, $(Accession_Numbers)]
+      - [hgncv:x-ec, $(Enzyme_IDs)]
+      - p: hgncv:x-ncbigene
+        o:
+          - mapping: TMncbigene-gene_info
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(Entrez_Gene_ID)]
+                - [str2, $(GeneID)]
+      - [hgncv:x-ensembl, http://rdf.ebi.ac.uk/resource/ensembl/$(Ensembl_Gene_ID)]
+      - [hgncv:x-mgi, $(Mouse_Genome_Database_ID)]
+      - p: hgncv:xref
+        o:
+        - function: sql:regexp_like
+          parameters:
+            - [sql:valueParam, $(Specialist_Database_Links)]
+            - [sql:valueParam2, "href="(\S+)""]
+            - [sql:valueParam3, "c"]
+      - [hgncv:x-pubmed, http://bio2rdf.org/pubmed:[$(Pubmed_IDs)]]
+      - [hgncv:x-refseq, http://bio2rdf.org/refseq:$(RefSeq_IDs)]
+      - [hgncv:gene-family-tag, $(Gene_Family_Tag)]
+      - [hgncv:gene-family-description, $(Gene_family_description)]
+      - [hgncv:record-type, $(Record_Type)]
+      - [hgncv:primary-id, $(Primary_IDs)]
+      - [hgncv:secondary-id, $(Secondary IDs)]
+      - [hgncv:x-ccds, $(http://bio2rdf.org/ccds:{CCDS_IDs})]
+      - [hgncv:x-vega, http://bio2rdf.org/vega:$(VEGA_IDs)]
+      - [hgncv:locus-specific-xref, $(Locus_Specific_Databases)]
+      - p: hgncv:x-ncbigene
+        o:
+          - mapping: TMncbigene-gene_info
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(Entrez_Gene_ID_(supplied_by_NCBI))]
+                - [str2, $(GeneID)]
+      - [hgncv:x-omim, $(http://bio2rdf.org/omim:{OMIM_ID_(Supplied_by_NCBI)})]
+      - [hgncv:x-refseq, http://bio2rdf.org/refseq:$(RefSeq_(Supplied_by_NCBI))]
+      - [hgncv:x-uniprot, http://bio2rdf.org/uniprot:$(UniProt_ID_(supplied_by_UniProt))]
+      - [hgncv:x-ensembl, http://rdf.ebi.ac.uk/resource/ensembl/$(Ensembl_ID_(supplied_by_Ensembl))]
+      - [hgncv:x-vega, http://bio2rdf.org/vega:$(Vega_ID_(supplied_by_Vega))]
+      - [hgncv:x-ucsc, http://bio2rdf.org/ucsc:$(UCSC_ID_(supplied_by_UCSC))]
+      - [hgncv:x-mgi, $(Mouse_Genome_Database_ID_(supplied_by_MGI))]
+      - [hgncv:x-rgd, $(Rat_Genome_Database_ID_(supplied_by_RGD))]
+
+  TMhgnc2:
+    sources:
+      - [./configs/Bio2RDF-MorphCSV/data/hgnc/hgnc.csv~csv]
+    s: http://bio2rdf.org/hgnc.symbol:$(Approved_Symbol)
+    po:
+      - [rdf:type, hgncv:Approved-Gene-Symbol]
+      - [rdf:type, hsv:Resource]
+      - [rdfs:label, $(Approved_Symbol) [hgnc.symbol:$(Approved_Symbol)]]
+      - [dcterms:title, $(Approved_Symbol)]
+      - [dcterms:identifier, [hgnc.symbol:$(Approved_Symbol)]]
+      - p: hgncv:is-approved-symbol-of
+        o:
+          - mapping: TMhgnc1
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(Approved_Symbol)]
+                - [str2, $(Approved_Symbol)]
+
+  TMhgnc3:
+    sources:
+      - [./configs/Bio2RDF-MorphCSV/data/hgnc/hgnc.csv~csv]
+    s: http://bio2rdf.org/$(HGNC_ID)_LOCUS
+    po:
+      - [rdf:type, hgncv:Locus]
+      - [hgncv:locus-type, $(Locus_Type)]
+      - [hgncv:locus-group, $(Locus_Group)]

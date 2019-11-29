@@ -81,6 +81,23 @@
       }]
     }
   },{
+    "url": "./configs/Bio2RDF-MorphCSV/data/ncbigene/gene2go",
+    "dialect": {
+      "delimiter": "\t",
+      "header": true
+    },
+    "tableSchema":{
+      "primaryKey": "GeneID",
+      "columns": [{
+        "titles": "Qualifier",
+        "null": "-"
+      },{
+        "titles": "PubMed",
+        "separator": "|",
+        "null": "-"
+      }]
+    }
+  },{
     "url": "./configs/Bio2RDF-MorphCSV/data/ncbigene/gene_info",
     "dialect": {
       "delimiter": "\t",
@@ -243,57 +260,6 @@
       }]
     }
   },{
-    "url": "./configs/Bio2RDF-MorphCSV/data/sider/meddra_all_se.csv",
-    "dialect": {
-      "delimiter": "\t",
-      "header": false
-    },
-    "tableSchema":{
-      "rowTitles": ["STITCH_ID_flat", "STITCH_ID_stereo", "UMLS_ID", "MedDRA_concept_type", "UMLS_ID_for_MedDRA", "Side_effect"],
-      "columns": [{
-        "titles": "UMLS_ID_for_MedDRA",
-        "null": ""
-      }],
-      "primaryKey": "STITCH_ID_flat,STITCH_ID_stereo,UMLS_ID,MedDRA_concept_type,UMLS_ID_for_MedDRA"
-    }
-  },{
-    "url": "./configs/Bio2RDF-MorphCSV/data/sider/meddra_freq.csv",
-    "dialect": {
-      "delimiter": "\t",
-      "header": false
-    },
-    "tableSchema":{
-      "rowTitles": ["STITCH_ID_flat", "STITCH_ID_stereo", "UMLS_ID", "Placebo", "Frequency", "Lower_bound", "Upper_bound", "MedDRA_concept_type", "UMLS_ID_for_MedDRA", "Side_effect"],
-      "columns": [{
-        "titles": "Placebo",
-        "default": "no_placebo"
-      },{
-        "titles": "MedDRA concept type",
-        "null": ""
-      },{
-        "titles": "UMLS ID for MedDRA",
-        "null": ""
-      }],
-      "primaryKey": "STITCH_ID_flat,STITCH_ID_stereo,UMLS_ID,Frequency,MedDRA_concept_type,UMLS_ID_for_MedDRA"
-    }
-  },{
-    "url": "./configs/Bio2RDF-MorphCSV/data/sider/meddra_all_indications.csv",
-    "dialect": {
-      "delimiter": "\t",
-      "header": false
-    },
-    "tableSchema":{
-      "rowTitles": ["STITCH_ID_flat", "UMLS_ID", "Detection_method", "Name", "MedDRA_concept_type", "UMLS_ID_for_MedDRA", "MedDRA_concept_name"],
-      "columns": [{
-        "titles": "MedDRA_concept_type",
-        "null": ""
-      },{
-        "titles": "UMLS_ID_for_MedDRA",
-        "null": ""
-      }],
-      "primaryKey": "STITCH_ID_flat,UMLS_ID,MedDRA_concept_type,UMLS_ID_for_MedDRA"
-    }
-  },{
     "url": "./configs/Bio2RDF-MorphCSV/data/wormbase/WBgeneIDs.csv",
     "dialect": {
       "delimiter": ",",
@@ -318,104 +284,56 @@
     },
     "tableSchema":{
       "primaryKey": "WBInteractionID",
-      "rowTitles": ["WBInteractionID", "Interaction_type", "Interaction_subtype", "Interactor1", "Common-name1", "Role1", "Interactor_sec", "Common-name2", "Role2"],
+      "rowTitles": ["WBInteractionID", "Interaction_type", "Interaction_subtype", "Interactor1", "Common-name1", "Role1", "Interactor2", "Common-name2", "Role2"],
       "columns": [{
-        "titles": "Interactor_sec",
+        "titles": "Interactor2",
         "null": ""
       }]
     }
   },{
-    "url": "./configs/Bio2RDF-MorphCSV/data/ndc/package.csv",
+    "url": "./configs/Bio2RDF-MorphCSV/data/wormbase/WBphenotype_association.csv",
     "dialect": {
-      "delimiter": "\t",
+      "delimiter": ",",
       "header": true
     },
     "tableSchema":{
-      "primaryKey": "NDCPACKAGECODE",
+      "primaryKey": "gene_id",
       "columns": [{
-        "titles": "STARTMARKETINGDATE",
-        "null": "",
-        "datatype": {
-          "base": "date",
-          "format": "yyyyMMdd"
-        }
+        "titles": "symbol",
+        "null": ""
       },{
-        "titles": "ENDMARKETINGDATE",
-        "null": "",
-        "datatype": {
-          "base": "date",
-          "format": "yyyyMMdd"
-        }
+        "titles": "association",
+        "default": "YES"
+      },{
+        "titles": "variant",
+        "null": ""
+      },{
+        "titles": "cosmid",
+        "null": ""
       }]
     }
   },{
-    "url": "./configs/Bio2RDF-MorphCSV/data/ndc/product.csv",
+    "url": "./configs/Bio2RDF-MorphCSV/data/wormbase/WBgene_association.csv",
     "dialect": {
       "delimiter": "\t",
-      "header": true
+      "header": false
     },
     "tableSchema":{
-      "primaryKey": "PRODUCTID",
+      "primaryKey": "gene_id",
+      "rowTitles": ["database", "gene_id", "symbol", "association", "GO_id", "references", "evidence", "dbxrefs", "ud1", "ud2", "cosmid", "type", "taxid", "mod_date", "db"],
       "columns": [{
-        "titles": "STARTMARKETINGDATE",
-        "null": "",
-        "datatype": {
-          "base": "date",
-          "format": "yyyyMMdd"
-        }
-      },{
-        "titles": "ENDMARKETINGDATE",
-        "null": "",
-        "datatype": {
-          "base": "date",
-          "format": "yyyyMMdd"
-        }
-      },{
-        "titles": "PROPRIETARYNAMESUFFIX",
+        "titles": "symbol",
         "null": ""
       },{
-        "titles": "DOSAGEFORMNAME",
-        "null": "",
-        "separator": ", "
-      },{
-        "titles": "ROUTENAME",
-        "null": "",
-        "separator": "; "
-      },{
-        "titles": "APPLICATIONNUMBER",
+        "titles": "GO_id",
         "null": ""
       },{
-        "titles": "SUBSTANCENAME",
+        "titles": "references",
         "null": "",
-        "separator": "; "
+        "separator": "|"
       },{
-        "titles": "ACTIVE_NUMERATOR_STRENGTH",
-        "null": "",
-        "separator": "; ",
-        "datatype": {
-          "base": "integer"
-        }
-      },{
-        "titles": "ACTIVE_INGRED_UNIT",
-        "null": "",
-        "separator": "; "
-      },{
-        "titles": "PHARM_CLASSES",
-        "null": "",
-        "separator": ","
-      },{
-        "titles": "DEASCHEDULE",
+        "titles": "evidence",
         "null": ""
-      },{
-        "titles": "NDC_EXCLUDE_FLAG",
-        "null": ""
-      },{
-        "titles": "LISTING_RECORD_CERTIFIED_THROUGH",
-        "null": "",
-        "datatype": {
-          "base": "date",
-          "format": "yyyyMMdd"
-        }
       }]
     }
   },{
@@ -513,6 +431,170 @@
         "null": ""
       },{
         "titles": "comments",
+        "null": ""
+      }]
+    }
+  },{
+    "url": "./configs/Bio2RDF-MorphCSV/data/hgnc/hgnc.csv",
+    "dialect": {
+      "delimiter": ",",
+      "header": true
+    },
+    "tableSchema":{
+      "columns": [{
+        "titles": "Approved_Symbol",
+        "null": ""
+      },{
+        "titles": "Approved_Name",
+        "null": ""
+      },{
+        "titles": "Status",
+        "null": ""
+      },{
+        "titles": "Locus_Type",
+        "null": ""
+      },{
+        "titles": "Locus_Group",
+        "null": ""
+      },{
+        "titles": "Previous_Symbols",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Previous_Names",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Synonyms",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Name_Synonyms",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Chromosome",
+        "null": ""
+      },{
+        "titles": "Date_Approved",
+        "null": "",
+        "datatype": {
+               "base": "date",
+               "format": "YYYY-MM-DD"
+        }
+      },{
+        "titles": "Date_Modified",
+        "null": "",
+        "datatype": {
+               "base": "date",
+               "format": "YYYY-MM-DD"
+        }
+      },{
+        "titles": "Date_Symbol_Changed",
+        "null": "",
+        "datatype": {
+               "base": "date",
+               "format": "YYYY-MM-DD"
+        }
+      },{
+        "titles": "Date_Name_Changed",
+        "null": "",
+        "datatype": {
+               "base": "date",
+               "format": "YYYY-MM-DD"
+        }
+      },{
+        "titles": "Accession_Numbers",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Enzyme_IDs",
+        "null": ""
+      },{
+        "titles": "Entrez_Gene_ID",
+        "null": ""
+      },{
+        "titles": "Ensembl_Gene_ID",
+        "null": ""
+      },{
+        "titles": "Mouse_Genome_Database_ID",
+        "null": ""
+      },{
+        "titles": "Specialist_Database_Links",
+        "separator": "</a> ",
+        "null": ""
+      },{
+        "titles": "Specialist_Database_IDs",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Pubmed_IDs",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "RefSeq_IDs",
+        "null": ""
+      },{
+        "titles": "Gene_Family_Tag",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Gene_family_description",
+        "null": ""
+      },{
+        "titles": "Record_Type",
+        "null": ""
+      },{
+        "titles": "Primary_IDs",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Secondary_IDs",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "CCDS_IDs",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "VEGA_IDs",
+        "separator": "; ",
+        "null": ""
+      },{
+        "titles": "Locus_Specific_Databases",
+        "null": ""
+      },{
+        "titles": "Entrez_Gene_ID_(supplied_by_NCBI)",
+        "null": ""
+      },{
+        "titles": "OMIM_ID_(supplied_by_NCBI)",
+        "null": ""
+      },{
+        "titles": "RefSeq_(supplied_by_NCBI)",
+        "null": ""
+      },{
+        "titles": "UniProt_ID_(supplied_by_UniProt)",
+        "null": ""
+      },{
+        "titles": "Ensembl_ID_(supplied_by_Ensembl)",
+        "null": ""
+      },{
+        "titles": "Vega_ID_(supplied_by_Vega)",
+        "null": ""
+      },{
+        "titles": "UCSC_ID_(supplied_by_UCSC)",
+        "null": ""
+      },{
+        "titles": "Mouse_Genome_Database_ID_(supplied_by_MGI)",
+        "null": ""
+      },{
+        "titles": "Rat_Genome_Database_ID_(supplied_by_RGD)",
+        "null": ""
+      },{
+        "titles": "RNACentral_IDs_(supplied_by_RNACentral)",
+        "null": ""
+      },{
+        "titles": "LNCipedia_symbol_(supplied_by_LNCipedia)",
         "null": ""
       }]
     }
